@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RagSystemFrontend.UI.Models;
+using RagSystemFrontend.UI.Models.ViewModels;
+using RagSystemFrontend.UI.Security;
 using System.Diagnostics;
 
 namespace RagSystemFrontend.UI.Controllers
@@ -9,6 +11,10 @@ namespace RagSystemFrontend.UI.Controllers
     {
         public IActionResult Index()
         {
+            if (!User.IsTenantAuthenticated() && !User.IsPlatformAuthenticated())
+            {
+                return View("../Account/Login", new AccountLoginViewModel { Expired = true });
+            }
             return View();
         }
 
