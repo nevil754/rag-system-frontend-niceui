@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RAG Enterprise</title>
+    <title>@ViewData["Title"] - KnowledgeHub</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -11,64 +11,69 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">RAG Enterprise</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-around align-items-center">
-                    <ul class="navbar-nav flex-grow-1 d-flex flex-wrap align-items-center gap-1">
-                        @if (User.IsTenantAuthenticated())
-                        {
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Chat" asp-action="Index">Chat</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Documents" asp-action="Index">Documenti</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Collections" asp-action="Index">Collezioni</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Jobs" asp-action="Index">Job</a></li>
-                            @if (User.IsTenantAdmin())
+        @if (User.IsTenantAuthenticated())
+        {
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">RAG Enterprise</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-around align-items-center">
+                        <ul class="navbar-nav flex-grow-1 d-flex flex-wrap align-items-center gap-1">
+                            @if (User.IsTenantAuthenticated())
                             {
-                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Users" asp-action="Index">Utenti</a></li>
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Chat" asp-action="Index">Chat</a></li>
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Documents" asp-action="Index">Documenti</a></li>
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Collections" asp-action="Index">Collezioni</a></li>
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Jobs" asp-action="Index">Job</a></li>
+                                @if (User.IsTenantAdmin())
+                                {
+                                    <li class="nav-item"><a class="nav-link text-white" asp-controller="Users" asp-action="Index">Utenti</a></li>
+                                }
+                                @if (User.IsPlatformAuthenticated())
+                                {
+                                    <li class="nav-item"><a class="nav-link text-white" asp-controller="Spaces" asp-action="Index">Cambia Ufficio (Space)</a></li>
+                                }
                             }
-                            @if (User.IsPlatformAuthenticated())
+                            else if (User.IsPlatformAuthenticated())
                             {
-                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Spaces" asp-action="Index">Cambia Ufficio (Space)</a></li>
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Spaces" asp-action="Index">I miei Space (Uffici)</a></li>
                             }
-                        }
-                        else if (User.IsPlatformAuthenticated())
-                        {
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Spaces" asp-action="Index">I miei Space (Uffici)</a></li>
-                        }
-                    </ul>
-                    <ul class="navbar-nav d-flex flex-wrap align-items-center gap-1">
-                        @if (User.IsTenantAuthenticated())
-                        {
-                            <li class="nav-item">
-                                <span class="nav-link text-white-50">
-                                    @User.Email() &middot; <span class="badge text-bg-secondary">@User.TenantSlug()</span> &middot; @User.TenantRole()
-                                </span>
-                            </li>
-                        }
-                        else if (User.IsPlatformAuthenticated())
-                        {
-                            <li class="nav-item"><span class="nav-link text-white-50">@User.Email() (platform)</span></li>
-                        }
-                        @if (User.IsTenantAuthenticated() || User.IsPlatformAuthenticated())
-                        {
-                            <li class="nav-item">
-                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
-                                    <button type="submit" class="btn btn-outline-light btn-sm">Esci</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item"><a class="nav-link text-white" asp-controller="Account" asp-action="Login">Accedi</a></li>
-                        }
-                    </ul>
+                        </ul>
+                        <ul class="navbar-nav d-flex flex-wrap align-items-center gap-1">
+                            @if (User.IsTenantAuthenticated())
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-white-50">
+                                        @User.Email() &middot; <span class="badge text-bg-secondary">@User.TenantSlug()</span> &middot; @User.TenantRole()
+                                    </span>
+                                </li>
+                            }
+                            else if (User.IsPlatformAuthenticated())
+                            {
+                                <li class="nav-item"><span class="nav-link text-white-50">@User.Email() (platform)</span></li>
+                            }
+                            @if (User.IsTenantAuthenticated() || User.IsPlatformAuthenticated())
+                            {
+                                <li class="nav-item">
+                                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
+                                        <button type="submit" class="btn btn-outline-light btn-sm">Esci</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item"><a class="nav-link text-white" asp-controller="Account" asp-action="Login">Accedi</a></li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+
+            </nav>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -92,19 +97,19 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - RAG Enterprise Compet-e Legal - Frontend ASP.NET Core
+            &copy; 2026 - KnowledgeHub Compet-e Legal - Frontend ASP.NET Core
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        // la card verde di successo scompare da sola dopo 4s (fade gestito dalla stessa
-        // classe .fade di Bootstrap usata per la chiusura manuale col bottone)
-        const successAlert = document.getElementById('successAlert');
-        if (successAlert) {
-            setTimeout(() => bootstrap.Alert.getOrCreateInstance(successAlert).close(), 4000);
-        }
+            // la card verde di successo scompare da sola dopo 4s (fade gestito dalla stessa
+            // classe .fade di Bootstrap usata per la chiusura manuale col bottone)
+            const successAlert = document.getElementById('successAlert');
+            if (successAlert) {
+                setTimeout(() => bootstrap.Alert.getOrCreateInstance(successAlert).close(), 4000);
+            }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
