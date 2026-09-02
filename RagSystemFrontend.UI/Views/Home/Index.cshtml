@@ -4,61 +4,63 @@
 
 @if (User.IsTenantAuthenticated())
 {
-    <div class="mb-4">
-        <h1 class="display-6">Bentornato@(string.IsNullOrEmpty(User.Email()) ? "" : $", {User.Email()}")</h1>
-        <p class="lead">
-            Spazio attivo: <span class="badge text-bg-secondary">@User.TenantSlug()</span>
+    <div class="kh-title-container">
+        <h1 class="kh-hero-title">Bentornato@(string.IsNullOrEmpty(User.Email()) ? "" : Html.Raw($", <span>{User.Email()}</span>"))</h1>
+        <h5 class="kh-hero-subtitle">Accedi rapidamente alle principali funzionalità e gestisci le tue risorse in modo semplice ed efficace.</h5>
+        <p class="kh-hero-subtitle">
+            Spazio attivo: <span class="kh-badge-slug">@User.TenantSlug()</span>
             (ruolo <strong>@User.TenantRole()</strong>)
         </p>
     </div>
-    <div class="row g-3">
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Chat RAG</h5>
-                    <p class="card-text">Fai domande in linguaggio naturale sui documenti caricati.</p>
-                    <a class="btn btn-primary" asp-controller="Chat" asp-action="Index">Apri la chat</a>
-                </div>
+
+    <!--CARDS-->
+    <div class="kh-quick-grid">
+        <a class="kh-quick-card" asp-controller="Chat" asp-action="Index">
+            <div class="kh-card-icon">
+                <img src="~/img/icona_chat.png" />
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Documenti</h5>
-                    <p class="card-text">Carica nuovi documenti e monitora lo stato di ingestione.</p>
-                    <a class="btn btn-outline-primary" asp-controller="Documents" asp-action="Index">Gestisci documenti</a>
-                </div>
+            <h5 class="kh-card-title">Chat RAG</h5>
+            <p class="kh-card-text">Fai domande in linguaggio naturale sui documenti caricati.</p>
+            <span class="kh-card-action">→</span>
+        </a>
+
+        <a class="kh-quick-card" asp-controller="Documents" asp-action="Index">
+            <div class="kh-card-icon">
+                <img src="~/img/icona_documento.png" />
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Collezioni</h5>
-                    <p class="card-text">Raggruppa i documenti in collezioni logiche.</p>
-                    <a class="btn btn-outline-primary" asp-controller="Collections" asp-action="Index">Gestisci collezioni</a>
-                </div>
+            <h5 class="kh-card-title">Gestisci documenti</h5>
+            <p class="kh-card-text">Carica nuovi documenti e monitora lo stato di ingestione.</p>
+            <span class="kh-card-action">→</span>
+        </a>
+
+        <a class="kh-quick-card" asp-controller="Collections" asp-action="Index">
+            <div class="kh-card-icon">
+                <img src="~/img/icona_documenti.png" />
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Job di ingestione</h5>
-                    <p class="card-text">Controlla l'avanzamento dell'elaborazione dei documenti.</p>
-                    <a class="btn btn-outline-primary" asp-controller="Jobs" asp-action="Index">Vedi i job</a>
-                </div>
+            <h5 class="kh-card-title">Collezioni</h5>
+            <p class="kh-card-text">Raggruppa i documenti in collezioni logiche.</p>
+            <span class="kh-card-action">→</span>
+        </a>
+
+        <a class="kh-quick-card" asp-controller="Jobs" asp-action="Index">
+            <div class="kh-card-icon">
+                <img src="~/img/icona_valigia.png" />
             </div>
-        </div>
+            <h5 class="kh-card-title">Job di ingestione</h5>
+            <p class="kh-card-text">Controlla l'avanzamento dell'elaborazione dei documenti.</p>
+            <span class="kh-card-action">→</span>
+        </a>
+
         @if (User.IsTenantAdmin())
         {
-            <div class="col-md-3">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Utenti</h5>
-                        <p class="card-text">Gestisci gli utenti di questo Space (solo admin).</p>
-                        <a class="btn btn-outline-primary" asp-controller="Users" asp-action="Index">Gestisci utenti</a>
-                    </div>
+            <a class="kh-quick-card" asp-controller="Users" asp-action="Index">
+                <div class="kh-card-icon">
+                    <img src="~/img/icona_utenti.png" />
                 </div>
-            </div>
+                <h5 class="kh-card-title">Utenti</h5>
+                <p class="kh-card-text">Gestisci gli utenti di questo Space (solo admin).</p>
+                <span class="kh-card-action">→</span>
+            </a>
         }
     </div>
 }
