@@ -7,17 +7,18 @@
 
 <meta name="csrf-token" content="@tokens.RequestToken" />
 
-<section class="kh-chat-intro">
+
+<div class="kh-chat-intro">
     <div class="kh-chat-brand"><span class="kh-logo-mark"></span><span class="kh-chat-spark">✦</span></div>
-    <div>
-        <h1>Benvenuto nella chat di <span>KnowledgeHub</span></h1>
-        <p>Fai domande sui tuoi documenti e sulla tua conoscenza.<br>Ti risponderemo con informazioni affidabili e pertinenti.</p>
-    </div>
-</section>
+
+    <h1>Benvenuto nella chat di <span>KnowledgeHub</span></h1>
+    <p>Fai domande sui tuoi documenti e sulla tua conoscenza.<br>Ti risponderemo con informazioni affidabili e pertinenti.</p>
+</div>
+
 
 <div class="d-flex flex-wrap gap-4 align-items-center mb-3 w-100">
 
-    <!-- 1. BLOCCO COLLETION (Chiuso correttamente) -->
+    <!-- BLOCCO COLLETION -->
     <div class="kh-chat-intro kh-select-group mb-0">
         <label for="collectionSelect" class="kh-select-label">Collezione</label>
         <div class="kh-select-wrapper">
@@ -30,14 +31,14 @@
             </select>
             <span class="kh-select-arrow">⌄</span>
         </div>
-    </div> <!-- <--- Prima questo tag mancava o era nel posto sbagliato -->
-    <!-- 2. BLOCCO SWITCH (Separato e allineato di fianco) -->
+    </div>
+    <!-- BLOCCO SWITCH -->
     <div class="form-check form-switch kh-switch mb-0">
         <input class="form-check-input" type="checkbox" id="streamingToggle">
         <label class="kh-select-label" for="streamingToggle">Streaming (senza feedback)</label>
     </div>
 
-    <!-- 3. PULSANTE (Spinto tutto a destra grazie a ms-auto) -->
+    <!-- PULSANTE -->
     <button type="button" id="newConversationBtn" class="kh-new-btn ms-auto">Nuova conversazione</button>
 
 </div>
@@ -45,7 +46,11 @@
 <div id="chatMessages" class="kh-chat-messages"></div>
 
 <form id="chatForm" class="kh-chat-form">
-    <textarea id="questionInput" class="kh-chat-textarea" rows="2" placeholder="Scrivi una domanda sui tuoi documenti..." required maxlength="10000"></textarea>
+    <div class="kh-input-container">
+        <div class="kh-textarea-grow">
+            <textarea id="questionInput" class="kh-chat-textarea" rows="1" placeholder="Scrivi una domanda sui tuoi documenti..." required maxlength="10000" oninput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+        </div>
+    </div>
     <button type="submit" class="kh-chat-send-btn" id="sendBtn">Invia</button>
 </form>
 

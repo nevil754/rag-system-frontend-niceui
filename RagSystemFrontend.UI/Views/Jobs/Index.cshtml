@@ -4,18 +4,23 @@
     var statuses = new[] { "queued", "running", "done", "failed", "cancelled" };
 }
 
-<h1 class="mb-4">Job di ingestione</h1>
+<div class="kh-jobs-intro">
+    <h1 class="mb-4">Job di ingestione</h1>
+</div>
 
-<form asp-controller="Jobs" asp-action="Index" method="get" class="row g-2 align-items-end mb-3">
-    <div class="col-auto">
-        <label class="form-label" for="filterStatus">Stato</label>
-        <select id="filterStatus" name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-            <option value="">Tutti</option>
-            @foreach (var s in statuses)
-            {
-                <option value="@s" selected="@(s == Model.Status)">@s</option>
-            }
-        </select>
+<form asp-controller="Jobs" asp-action="Index" method="get" class="d-flex flex-wrap w-100 kh-jobs-intro">
+    <div class="kh-jobs-intro kh-select-group mb-0">
+        <label class="kh-select-label" for="filterStatus">Stato</label>
+        <div class="kh-select-wrapper">
+            <select id="filterStatus" name="status" class="kh-status-select" onchange="this.form.submit()">
+                <option value="">Tutti</option>
+                @foreach (var s in statuses)
+                {
+                    <option value="@s" selected="@(s == Model.Status)">@s</option>
+                }
+            </select>
+            <span class="kh-select-arrow">⌄</span>
+        </div>
     </div>
 </form>
 
@@ -25,7 +30,7 @@
 }
 else
 {
-    <table class="table table-hover align-middle">
+    <table class="table table-hover align-middle" id="jobsTable">
         <thead>
             <tr>
                 <th>Documento</th>
@@ -43,13 +48,13 @@ else
                     <td><a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id"><code>@job.DocumentId</code></a></td>
                     <td>
                         <span class="badge @(job.Status switch
-                                               {
-                                                   "done" => "text-bg-success",
-                                                   "failed" => "text-bg-danger",
-                                                   "cancelled" => "text-bg-secondary",
-                                                   "running" => "text-bg-info",
-                                                   _ => "text-bg-warning",
-                                               })">@job.Status</span>
+                              {
+                                  "done" => "text-bg-success",
+                                  "failed" => "text-bg-danger",
+                                  "cancelled" => "text-bg-secondary",
+                                  "running" => "text-bg-info",
+                                  _ => "text-bg-warning",
+                              })">@job.Status</span>
                     </td>
                     <td>@job.RetryCount</td>
                     <td>@job.CreatedAt.LocalDateTime.ToString("g")</td>

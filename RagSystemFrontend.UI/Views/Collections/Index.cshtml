@@ -3,23 +3,26 @@
     ViewData["Title"] = "Collezioni";
 }
 
-<h1 class="mb-4">Collezioni</h1>
+<div class="kh-document-intro">
+    <h1 class="mb-4">Collezioni</h1>
+</div>
 
-<div class="card mb-4">
+<div class="card mb-4 kh-collection-card">
     <div class="card-body">
-        <h5 class="card-title">Crea una nuova collezione</h5>
-        <form asp-controller="Collections" asp-action="Create" method="post" class="row g-2 align-items-end">
-            <div class="col-auto">
-                <label class="form-label" for="createName">Nome</label>
-                <input type="text" id="createName" name="Name" class="form-control" required maxlength="255" placeholder="Es. Contratti 2024" />
+        <section class="kh-collection-intro">
+            <h5 class="card-title">Crea una nuova collezione</h5>
+        </section>
+        <form asp-controller="Collections" asp-action="Create" method="post" class="d-flex flex-wrap w-100 kh-collection-intro">
+            <div class="kh-collection-intro mb-0">
+                <label class="kh-select-label" for="createName">Nome</label>
+                <input type="text" id="createName" name="Name" class="kh-text-input-custom" required maxlength="255" placeholder="Es. Contratti 2024" />
             </div>
-            <div class="col-auto">
-                <label class="form-label" for="createDescription">Descrizione (opzionale)</label>
-                <input type="text" id="createDescription" name="Description" class="form-control" />
+            <div class="kh-collection-intro mb-0">
+                <label class="kh-select-label" for="createDescription">Descrizione (opzionale)</label>
+                <input type="text" id="createDescription" name="Description" class="kh-text-input-custom" placeholder="Inserisci una descrizione" />
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Crea</button>
-            </div>
+            <button type="submit" class="kh-create-btn ms-auto">Crea</button>
+
         </form>
     </div>
 </div>
@@ -30,7 +33,7 @@
 }
 else
 {
-    <table class="table table-hover align-middle">
+    <table class="table table-hover align-middle" id="collectionsTable">
         <thead>
             <tr>
                 <th>Nome</th>
