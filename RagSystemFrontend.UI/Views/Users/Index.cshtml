@@ -3,35 +3,47 @@
     ViewData["Title"] = "Utenti";
 }
 
-<h1 class="mb-4">Utenti del tenant "@User.TenantSlug()"</h1>
+<div class="kh-user-intro">
+    <h1 class="mb-4">Utenti del tenant "@User.TenantSlug()"</h1>
+</div>
 
 <div class="card mb-4">
     <div class="card-body">
-        <h5 class="card-title">Crea un nuovo utente</h5>
-        <form asp-controller="Users" asp-action="Create" method="post" class="row g-2 align-items-start">
-            <div class="col-auto">
-                <label class="form-label" for="createEmail">Email</label>
-                <input type="email" id="createEmail" name="Email" class="form-control" required />
+        <section class="kh-user-intro">
+            <h5 class="card-title">Crea un nuovo utente</h5>
+        </section>
+
+        <form asp-controller="Users" asp-action="Create" method="post" class="kh-form-grid">
+
+            <div class="kh-form-group">
+                <label class="kh-select-label" for="createEmail">Email</label>
+                <input type="email" id="createEmail" name="Email" class="kh-text-input-custom" required />
             </div>
-            <div class="col-auto">
-                <label class="form-label" for="createFullName">Nome completo</label>
-                <input type="text" id="createFullName" name="FullName" class="form-control" />
+
+            <div class="kh-form-group">
+                <label class="kh-select-label" for="createFullName">Nome completo</label>
+                <input type="text" id="createFullName" name="FullName" class="kh-text-input-custom" />
             </div>
-            <div class="col-auto">
-                <label class="form-label" for="createPassword">Password</label>
-                <input type="password" id="createPassword" name="Password" class="form-control" required minlength="12" />
-                <div class="form-text">Minimo 12 caratteri.</div>
+
+            <div class="kh-form-group">
+                <label class="kh-select-label" for="createPassword">Password</label>
+                <input type="password" id="createPassword" name="Password" class="kh-text-input-custom" required minlength="12" placeholder="Minimo 12 caratteri" />
             </div>
-            <div class="col-auto">
-                <label class="form-label" for="createRole">Ruolo</label>
-                <select id="createRole" name="Role" class="form-select">
-                    <option value="user" selected>user</option>
-                    <option value="admin">admin</option>
-                    <option value="viewer">viewer</option>
-                </select>
+
+            <div class="kh-form-group">
+                <label class="kh-select-label" for="createRole">Ruolo</label>
+                <div class="kh-select-wrapper">
+                    <select id="createRole" name="Role" class="kh-user-select">
+                        <option value="user" selected>user</option>
+                        <option value="admin">admin</option>
+                        <option value="viewer">viewer</option>
+                    </select>
+                    <span class="kh-select-arrow">⌄</span>
+                </div>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Crea</button>
+
+            <div class="kh-form-actions">
+                <button type="submit" class="kh-create-btn">Crea</button>
             </div>
         </form>
     </div>
@@ -43,41 +55,43 @@
 }
 else
 {
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Nome</th>
-                <th>Ruolo</th>
-                <th>Stato</th>
-                <th class="text-end">Azioni</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr class="">
-                    <td>@user.Email</td>
-                    <td>@user.FullName</td>
-                    <td>@user.Role</td>
-                    <td>
-                        @if (user.IsActive)
-                        {
-                            <span class="badge text-bg-success">attivo</span>
-                        }
-                        else
-                        {
-                            <span class="badge text-bg-secondary">disattivato</span>
-                        }
-                    </td>
-                    <td class="text-end">
-                        <form asp-controller="Users" asp-action="Delete" method="post" onsubmit="return confirm('Disattivare questo utente?');">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Disattiva</button>
-                        </form>
-                    </td>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="usersTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nome</th>
+                    <th>Ruolo</th>
+                    <th>Stato</th>
+                    <th class="text-end">Azioni</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr class="">
+                        <td>@user.Email</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Role</td>
+                        <td>
+                            @if (user.IsActive)
+                            {
+                                <span class="badge text-bg-success">attivo</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-secondary">disattivato</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <form asp-controller="Users" asp-action="Delete" method="post" onsubmit="return confirm('Disattivare questo utente?');">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Disattiva</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }

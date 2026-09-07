@@ -3,47 +3,75 @@
     ViewData["Title"] = "Dettaglio job";
 }
 
-<h1 class="mb-4">Dettaglio job</h1>
+<div class="mb-4">
+    <h1 class="kh-detail-title">Dettaglio job</h1>
+</div>
 
-<dl class="row">
-    <dt class="col-sm-3">Id job</dt>
-    <dd class="col-sm-9"><code>@Model.Id</code></dd>
+<div class="card kh-detail-card mb-4">
+    <div class="card-body p-0">
+        <dl class="kh-detail-list">
 
-    <dt class="col-sm-3">Documento</dt>
-    <dd class="col-sm-9"><code>@Model.DocumentId</code></dd>
 
-    <dt class="col-sm-3">Stato</dt>
-    <dd class="col-sm-9">
-        <span class="badge @(Model.Status switch
-                               {
-                                   "done" => "text-bg-success",
-                                   "failed" => "text-bg-danger",
-                                   "cancelled" => "text-bg-secondary",
-                                   "running" => "text-bg-info",
-                                   _ => "text-bg-warning",
-                               })">@Model.Status</span>
-    </dd>
 
-    <dt class="col-sm-3">Task Celery</dt>
-    <dd class="col-sm-9"><code>@(Model.CeleryTaskId ?? "-")</code></dd>
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Id job</dt>
+                <dd class="col-sm-9"><code>@Model.Id</code></dd>
+            </div>
 
-    <dt class="col-sm-3">Tentativi</dt>
-    <dd class="col-sm-9">@Model.RetryCount</dd>
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Documento</dt>
+                <dd class="col-sm-9"><code>@Model.DocumentId</code></dd>
+            </div>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMsg))
-    {
-        <dt class="col-sm-3">Errore</dt>
-        <dd class="col-sm-9 text-danger">@Model.ErrorMsg</dd>
-    }
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Stato</dt>
+                <dd class="col-sm-9">
+                    <span class="badge @(Model.Status switch
+                          {
+                              "done" => "text-bg-success",
+                              "failed" => "text-bg-danger",
+                              "cancelled" => "text-bg-secondary",
+                              "running" => "text-bg-info",
+                              _ => "text-bg-warning",
+                          })">@Model.Status</span>
+                </dd>
+            </div>
 
-    <dt class="col-sm-3">Creato il</dt>
-    <dd class="col-sm-9">@Model.CreatedAt.LocalDateTime.ToString("g")</dd>
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Task Celery</dt>
+                <dd class="col-sm-9"><code>@(Model.CeleryTaskId ?? "-")</code></dd>
+            </div>
 
-    <dt class="col-sm-3">Avviato il</dt>
-    <dd class="col-sm-9">@(Model.StartedAt?.LocalDateTime.ToString("g") ?? "-")</dd>
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Tentativi</dt>
+                <dd class="col-sm-9">@Model.RetryCount</dd>
+            </div>
 
-    <dt class="col-sm-3">Completato il</dt>
-    <dd class="col-sm-9">@(Model.FinishedAt?.LocalDateTime.ToString("g") ?? "-")</dd>
-</dl>
+            @if (!string.IsNullOrEmpty(Model.ErrorMsg))
+            {
+                <div class="kh-detail-row kh-error-row">
+                    <dt class="col-sm-3">Errore</dt>
+                    <dd class="col-sm-9 text-danger">@Model.ErrorMsg</dd>
+                </div>
+            }
 
-<a class="btn btn-outline-secondary" asp-controller="Jobs" asp-action="Index">Torna alla lista</a>
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Creato il</dt>
+                <dd class="col-sm-9">@Model.CreatedAt.LocalDateTime.ToString("g")</dd>
+            </div>
+
+            <div class="kh-detail-row">
+
+                <dt class="col-sm-3">Avviato il</dt>
+                <dd class="col-sm-9">@(Model.StartedAt?.LocalDateTime.ToString("g") ?? "-")</dd>
+            </div>
+
+            <div class="kh-detail-row">
+                <dt class="col-sm-3">Completato il</dt>
+                <dd class="col-sm-9">@(Model.FinishedAt?.LocalDateTime.ToString("g") ?? "-")</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<a class="kh-btn-back" asp-controller="Jobs" asp-action="Index">Torna alla lista</a>

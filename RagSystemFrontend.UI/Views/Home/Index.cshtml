@@ -13,7 +13,6 @@
         </p>
     </div>
 
-    <!--CARDS-->
     <div class="kh-quick-grid">
         <a class="kh-quick-card" asp-controller="Chat" asp-action="Index">
             <div class="kh-card-icon">
@@ -70,6 +69,6 @@ else if (User.IsPlatformAuthenticated())
         <h1 class="display-6">Bentornato@(string.IsNullOrEmpty(User.Email()) ? "" : $", {User.Email()}")</h1>
         <p class="lead">Sei autenticato a livello platform. Seleziona uno Space per iniziare a lavorare.</p>
     </div>
-    <a class="btn btn-primary" asp-controller="Spaces" asp-action="Index">Vai ai tuoi Space</a>
+    <a class="kh-primary-btn" asp-controller="Spaces" asp-action="Index">Vai ai tuoi Space</a>
 }
 

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Collezioni";
 }
 
-<div class="kh-document-intro">
+<div class="kh-collection-intro">
     <h1 class="mb-4">Collezioni</h1>
 </div>
 
@@ -33,39 +33,40 @@
 }
 else
 {
-    <table class="table table-hover align-middle" id="collectionsTable">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Descrizione</th>
-                <th>Creata il</th>
-                @if (User.IsTenantAdmin())
-                {
-                    <th class="text-end">Azioni</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var collection in Model.Collections.Items)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="collectionsTable">
+            <thead>
                 <tr>
-                    <td>@collection.Name</td>
-                    <td>@collection.Description</td>
-                    <td>@collection.CreatedAt.LocalDateTime.ToString("g")</td>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Creata il</th>
                     @if (User.IsTenantAdmin())
                     {
-                        <td class="text-end">
-                            <form asp-controller="Collections" asp-action="Delete" method="post" onsubmit="return confirm('Eliminare questa collezione? I documenti già assegnati non verranno toccati.');">
-                                <input type="hidden" name="id" value="@collection.Id" />
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Elimina</button>
-                            </form>
-                        </td>
+                        <th class="text-end">Azioni</th>
                     }
                 </tr>
-            }
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+                @foreach (var collection in Model.Collections.Items)
+                {
+                    <tr>
+                        <td>@collection.Name</td>
+                        <td>@collection.Description</td>
+                        <td>@collection.CreatedAt.LocalDateTime.ToString("g")</td>
+                        @if (User.IsTenantAdmin())
+                        {
+                            <td class="text-end">
+                                <form asp-controller="Collections" asp-action="Delete" method="post" onsubmit="return confirm('Eliminare questa collezione? I documenti già assegnati non verranno toccati.');">
+                                    <input type="hidden" name="id" value="@collection.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Elimina</button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
     <nav>
         <ul class="pagination">
             <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
