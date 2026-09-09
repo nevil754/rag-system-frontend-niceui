@@ -248,21 +248,14 @@ body {
     box-shadow: 0 11px 25px rgba(255,70,12,.24);
 }
 
-.kh-exit-btn {
-    width: 100%;
-    height: 60px;
-    border: 0;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 650;
-    background: linear-gradient(90deg, #ff7400, var(--kh-primary) 55%, #ff3518);
-    box-shadow: 0 11px 25px rgba(255,70,12,.24);
+.kh-primary-btn:hover {
+    filter: saturate(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 75, 19, 0.3);
 }
 
-.kh-primary-btn:hover {
-    filter: saturate(1.08);
-    transform: translateY(-1px);
+.kh-primary-btn:active {
+    transform: translateY(0);
 }
 
 /* -------------------------------------- */
@@ -284,6 +277,12 @@ body {
 
 .kh-alert-warning {
     background: rgba(255, 136, 0, 0.08);
+    border: 1px solid rgba(255, 75, 19, 0.2);
+    color: #df400f;
+}
+
+.kh-alert-danger {
+    background: rgba(255, 0, 0, 0.08);
     border: 1px solid rgba(255, 75, 19, 0.2);
     color: #df400f;
 }
@@ -380,6 +379,7 @@ header {
 
     .kh-hero-title span {
         color: var(--kh-primary);
+        font-size: 24px;
     }
 
 .kh-hero-subtitle {
@@ -416,6 +416,11 @@ header {
     .kh-quick-grid {
         grid-template-columns: repeat(5, minmax(180px, 1fr));
         padding: 24px;
+    }
+
+    .kh-hero-title span {
+        color: var(--kh-primary);
+        font-size: clamp(38px,4vw,60px);
     }
 }
 
@@ -599,7 +604,7 @@ a.kh-quick-card {
     padding: 2px 26px 34px;
 }
 
-.kh-primary-btn {
+.kh-exit-btn {
     width: 100%;
     height: 60px;
     border: 0;
@@ -609,6 +614,16 @@ a.kh-quick-card {
     font-weight: 650;
     background: linear-gradient(90deg, #ff7400, var(--kh-primary) 55%, #ff3518);
     box-shadow: 0 11px 25px rgba(255,70,12,.24);
+}
+
+.kh-exit-btn:hover {
+    filter: saturate(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 75, 19, 0.3);
+}
+
+.kh-exit-btn:active {
+    transform: translateY(0);
 }
 
 .kh-menu {
@@ -686,10 +701,6 @@ a.kh-quick-card {
     padding: 0 16px;
 }
 
-.kh-exit-btn {
-    width: 100%;
-}
-
 .kh-sidebar .container-fluid {
     display: flex;
     flex-direction: column;
@@ -708,7 +719,7 @@ a.kh-quick-card {
 .kh-header {
     grid-column: 2;
     grid-row: 1;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: var(--kh-sidebar-width);
     right: 0;
@@ -720,7 +731,21 @@ a.kh-quick-card {
     justify-content: space-between;
     padding: 0 34px;
     z-index: 90;
+    animation: auto-hide-header linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 150px;
 }
+
+@keyframes auto-hide-header {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-100%);
+    }
+}
+
 
 .kh-header-pages {
     display: flex;
@@ -740,6 +765,7 @@ a.kh-quick-card {
 }
 
 .kh-user-menu {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -747,8 +773,8 @@ a.kh-quick-card {
     border-radius: 12px;
 }
 
-    .kh-user-menu:hover {
-        background: #fff7f3;
+    .kh-user-menu .kh-exit-div {
+        display: none;
     }
 
 .kh-avatar {
@@ -809,6 +835,30 @@ a.kh-quick-card {
         font-size: 16px;
     }
 
+    .kh-user-menu .kh-exit-div {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 8px 10px;
+        background: white;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 999;
+        border-radius: 12px;
+        min-width: 100%;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .kh-user-menu:focus-within .kh-exit-div {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
     .kh-main {
         grid-column: 1 !important;
         grid-row: 2;
@@ -832,6 +882,17 @@ a.kh-quick-card {
 
     .kh-back-link {
         display: block !important;
+    }
+
+    .kh-header-pages {
+        gap: 2px;
+    }
+
+    .kh-header-title {
+        font-size: 12px;
+        font-weight: 600;
+        align-content: center;
+        color: var(--kh-primary);
     }
 }
 
@@ -1197,6 +1258,7 @@ a.kh-quick-card {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+        margin-bottom: 0px;
     }
 
         .kh-chat-intro h1 {
@@ -1248,7 +1310,6 @@ a.kh-quick-card {
         }
 
     .kh-chat-messages {
-        height: 50vh !important;
         padding: 14px !important;
     }
 
@@ -1262,7 +1323,7 @@ a.kh-quick-card {
     .kh-new-btn {
         width: 100% !important;
         height: 44px !important;
-        margin-top: 12px;
+        margin-top: 0px;
     }
 }
 /*-------------------------------------------------------------------*/
@@ -1600,6 +1661,7 @@ a.kh-quick-card {
         gap: 16px !important;
         margin: 12px 0 !important;
         width: 100% !important;
+        margin-bottom: 0px !important;
     }
 
     .kh-file-input-custom,
@@ -1620,6 +1682,7 @@ a.kh-quick-card {
         width: 100% !important;
         -webkit-overflow-scrolling: touch;
         margin-bottom: 24px;
+        margin-top: 24px;
     }
 
     #documentsTable {
@@ -1704,6 +1767,17 @@ a.kh-quick-card {
     z-index: 20;
     box-shadow: 0 4px 12px rgba(255, 75, 19, 0.2);
 }
+
+.kh-create-btn:hover {
+    filter: saturate(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 75, 19, 0.3);
+}
+
+.kh-create-btn:active {
+    transform: translateY(0);
+}
+
 
 .kh-text-input-custom {
     width: 100%;
@@ -1876,6 +1950,7 @@ a.kh-quick-card {
         gap: 16px !important;
         margin: 12px 0 !important;
         width: 100% !important;
+        margin-bottom: 0px !important;
     }
 
     .kh-text-input-custom {
@@ -1976,6 +2051,17 @@ a.kh-quick-card {
     z-index: 20;
     box-shadow: 0 4px 12px rgba(255, 75, 19, 0.2);
 }
+
+.kh-create-btn:hover {
+    filter: saturate(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 75, 19, 0.3);
+}
+
+.kh-create-btn:active {
+    transform: translateY(0);
+}
+
 
 .kh-text-input-custom {
     width: 100%;
@@ -2251,6 +2337,7 @@ a.kh-quick-card {
         gap: 16px !important;
         margin: 12px 0 !important;
         width: 100% !important;
+        margin-bottom: 0px !important;
     }
 
     .kh-select-wrapper,
@@ -2519,6 +2606,7 @@ a.kh-quick-card {
         gap: 16px !important;
         margin: 12px 0 !important;
         width: 100% !important;
+        margin-bottom: 0px !important;
     }
 
     .kh-select-wrapper,
@@ -2559,6 +2647,10 @@ a.kh-quick-card {
 
     .kh-create-btn {
         width: 100% !important;
+    }
+
+    .kh-form-group {
+        margin-bottom: 0px;
     }
 }
 /*----------------------DETTAGLIO-----------------------------------*/

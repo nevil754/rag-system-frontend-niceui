@@ -21,14 +21,14 @@
         }
         @if (!ViewData.ModelState.IsValid)
         {
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <li>@error.ErrorMessage</li>
-                    }
-                </ul>
-            </div>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div class="kh-alert kh-alert-danger">
+                    <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="kh-alert-icon"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>@error.ErrorMessage</span>
+                </div>
+
+            }
         }
 
         <ul class="nav nav-tabs" id="loginTabs" role="tablist">

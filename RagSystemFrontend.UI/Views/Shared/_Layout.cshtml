@@ -76,7 +76,7 @@
                         {
                             <li>
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
-                                    <button type="submit" class="kh-primary-btn">Esci</button>
+                                    <button type="submit" class="kh-exit-btn">Esci</button>
                                 </form>
                             </li>
                         }
@@ -90,24 +90,38 @@
                 <div class="kh-header-pages">
                     @if (ViewData["Title"]?.ToString() != "Home")
                     {
-                        <a class="kh-back-link align-items-center" asp-controller="Home" asp-action="Index">
-                            <div class="kh-header-title">Home</div>
-                        </a>
-
-                        <div class="kh-header-title kh-back-link d-md-none">→</div>
+                        <div class="kh-header-title">
+                            <a class="kh-back-link align-items-center" asp-controller="Home" asp-action="Index">
+                                <div class="kh-header-title">Home</div>
+                            </a>
+                        </div>
+                        <div class="kh-header-title kh-back-link">→</div>
                     }
-                    <div class="kh-header-title">@ViewData["Title"]</div>
-                </div>
-                <div class="kh-user-menu">
-                    @if (User.Identity?.IsAuthenticated == true)
+                    @if (ViewData["Title"]?.ToString() == "Job di ingestione")
                     {
+                        <div class="kh-header-title">Job</div>
+                    }
+                    else
+                    {
+                        <div class="kh-header-title">@ViewData["Title"]</div>
+                    }
+                </div>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="kh-user-menu" tabindex="0">
                         <div class="kh-avatar">@User.Email()?.ToString().Substring(0, 1).ToUpper()</div>
                         <div class="kh-user-copy">
                             <span class="kh-user-name">@User.Email()</span>
                             <span class="kh-user-role">@(User.IsTenantAdmin() ? "Amministratore" : "Utente")</span>
                         </div>
-                    }
-                </div>
+                        <div class="kh-exit-div">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
+                                <button type="submit" class="kh-exit-btn">Esci</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
             </header>
         }
         <main role="main" class="@(User.IsTenantAuthenticated() ? "kh-main" : "")">
