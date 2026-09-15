@@ -3,60 +3,76 @@
     ViewData["Title"] = "I miei Space";
 }
 
-<h1 class="mb-4">I miei Space</h1>
-<p class="text-muted">
-    Uno <strong>Space</strong> rappresenta un <strong>ufficio/filiale</strong> della tua azienda:
-    ogni Space ha i propri utenti, documenti e conversazioni, isolati dagli altri.<br>
-    Lo <strong>slug</strong> è l'identificativo univoco di quell'ufficio (es. <code>filiale-torino</code>),
-    viene generato automaticamente alla creazione dello space.
-</p>
+<div class="kh-space-intro d-flex flex-column flex-md-row justify-content-between align-items-start gap-4">
+    <div class="flex-grow-1">
+        <h1>I miei Space</h1>
+        <p class="text-muted mb-0">
+            Uno <strong>Space</strong> rappresenta un <strong>ufficio/filiale</strong> della tua azienda:
+            ogni Space ha i propri utenti, documenti e conversazioni, isolati dagli altri.<br>
+            Lo <strong>slug</strong> è l'identificativo univoco di quell'ufficio (es. <code>filiale-torino</code>),
+            viene generato automaticamente alla creazione dello space.
+        </p>
+    </div>
 
-<div class="card mb-4">
+    <form asp-controller="Account" asp-action="Logout" method="post" class="align-self-end align-self-md-start">
+        <button type="submit" class="kh-Spaceexit-btn">Esci</button>
+    </form>
+</div>
+
+
+<div class="card mb-4 kh-space-card">
     <div class="card-body">
-        <h5 class="card-title">Crea un nuovo Space (ufficio)</h5>
-        <form asp-controller="Spaces" asp-action="Create" method="post" class="d-flex flex-column align-items-start">
+        <div class="kh-space-intro">
+            <h5 class="card-title">Crea un nuovo Space (ufficio)</h5>
+        </div>
 
-            <div class="w-50 mb-3">
-                <label class="form-label" for="createName">Nome ufficio</label>
-                <input type="text" id="createName" name="Name" class="form-control" placeholder="Es. Filiale Torino" required maxlength="255" />
+        <form asp-controller="Spaces" asp-action="Create" method="post" class="kh-form-grid">
+
+            <div class="kh-form-group kh-form-group-full">
+                <label class="kh-select-label" for="createName">Nome ufficio</label>
+                <input type="text" id="createName" name="Name" class="kh-text-input-custom" placeholder="Es. Filiale Torino" required maxlength="255" />
                 <div class="form-text">Lo slug (es. <code>filiale-torino</code>) viene generato automaticamente da questo nome.</div>
             </div>
+
             @if (User.IsSuperAdmin())
             {
-                <div class="row g-4 align-items-start mb-3">
-
-                    <div class="col-auto">
-                        <label class="form-label" for="createPlan">Piano</label>
-                        <select id="createPlan" name="Plan" class="form-select">
+                <div class="kh-form-group">
+                    <label class="kh-select-label" for="createPlan">Piano</label>
+                    <div class="kh-select-wrapper">
+                        <select id="createPlan" name="Plan" class="kh-user-select">
                             <option value="starter" selected>starter</option>
                             <option value="pro">pro</option>
                             <option value="enterprise">enterprise</option>
                         </select>
+                        <span class="kh-select-arrow">⌄</span>
                     </div>
-
-                    <div class="col-auto form-check">
-                        <label class="form-check-label" for="createCustomCredentials">Credenziali admin personalizzate</label>
-                        <input type="checkbox" id="createCustomCredentials" name="CustomCredentials" value="true" class="form-check-input" />
-                    </div>
-
-                    <div class="col-auto">
-                        <label class="form-label" for="createAdminEmail">Email admin</label>
-                        <input type="email" id="createAdminEmail" name="AdminEmail" class="form-control" disabled />
-                    </div>
-
-                    <div class="col-auto">
-                        <label class="form-label" for="createAdminPassword">Password admin</label>
-                        <input type="password" id="createAdminPassword" name="AdminPassword" class="form-control" minlength="12" disabled />
-                    </div>
-
                 </div>
 
+                <div class="kh-form-group kh-checkbox-align">
+                    <div class="form-check kh-custom-check">
+                        <input type="checkbox" id="createCustomCredentials" name="CustomCredentials" value="true" class="form-check-input" />
+                        <label class="form-check-label" for="createCustomCredentials">Credenziali admin personalizzate</label>
+                    </div>
+                </div>
+
+
+                <div class="kh-form-group">
+                    <label class="kh-select-label" for="createAdminEmail">Email admin</label>
+                    <input type="email" id="createAdminEmail" name="AdminEmail" class="kh-text-input-custom" disabled />
+                </div>
+
+                <div class="kh-form-group">
+                    <label class="kh-select-label" for="createAdminPassword">Password admin</label>
+                    <input type="password" id="createAdminPassword" name="AdminPassword" class="kh-text-input-custom" minlength="12" disabled />
+                </div>
             }
-            <div class="w-100 align-self-center justify-content-center ">
-                <button type="submit" class="btn btn-primary d-flex flex-grow-1">Crea</button>
+
+            <div class="kh-form-actions">
+                <button type="submit" class="kh-create-btn">Crea</button>
             </div>
 
         </form>
+
         @if (User.IsSuperAdmin())
         {
             <p class="text-muted small mt-2 mb-0">
@@ -66,66 +82,69 @@
     </div>
 </div>
 
+
 @if (Model.Count == 0)
 {
     <p class="text-muted">Non possiedi ancora nessuno Space (ufficio). Creane uno per iniziare.</p>
 }
 else
 {
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th>Nome ufficio</th>
-                <th>Slug (identificativo)</th>
-                <th>Piano</th>
-                <th>Stato</th>
-                <th>Creato il</th>
-                <th class="text-end">Azioni</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var space in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" id="spaceTable">
+            <thead>
                 <tr>
-                    <td>
-                        <form asp-controller="Spaces" asp-action="Rename" method="post" class="d-flex gap-2">
-                            <input type="hidden" name="Id" value="@space.Id" />
-                            <input type="text" name="Name" value="@space.DisplayName" class="form-control form-control-sm" required maxlength="255" />
-                            <button type="submit" class="btn btn-sm btn-outline-secondary text-nowrap">Rinomina</button>
-                        </form>
-                    </td>
-                    <td><code>@space.Slug</code></td>
-                    <td>@space.Plan</td>
-                    <td>
-                        @if (space.IsActive)
-                        {
-                            <span class="badge text-bg-success">attivo</span>
-                        }
-                        else
-                        {
-                            <span class="badge text-bg-secondary">disabilitato</span>
-                        }
-                    </td>
-                    <td>@space.CreatedAt.LocalDateTime.ToString("g")</td>
-                    <td class="text-end">
-                        <div class="d-flex gap-2 justify-content-end">
+                    <th>Nome ufficio</th>
+                    <th>Slug (identificativo)</th>
+                    <th>Piano</th>
+                    <th>Stato</th>
+                    <th>Creato il</th>
+                    <th class="text-end">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var space in Model)
+                {
+                    <tr>
+                        <td>
+                            <form asp-controller="Spaces" asp-action="Rename" method="post" class="d-flex gap-2">
+                                <input type="hidden" name="Id" value="@space.Id" />
+                                <input type="text" name="Name" value="@space.DisplayName" class="kh-text-input-custom" required maxlength="255" />
+                                <button type="submit" class="btn btn-sm btn-outline-secondary text-nowrap">Rinomina</button>
+                            </form>
+                        </td>
+                        <td><code>@space.Slug</code></td>
+                        <td>@space.Plan</td>
+                        <td>
                             @if (space.IsActive)
                             {
-                                <form asp-controller="Spaces" asp-action="Select" method="post">
-                                    <input type="hidden" name="id" value="@space.Id" />
-                                    <button type="submit" class="btn btn-sm btn-primary">Entra</button>
-                                </form>
-                                <form asp-controller="Spaces" asp-action="Disable" method="post" onsubmit="return confirm('Disabilitare questo Space?');">
-                                    <input type="hidden" name="id" value="@space.Id" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Disabilita</button>
-                                </form>
+                                <span class="badge text-bg-success">attivo</span>
                             }
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                            else
+                            {
+                                <span class="badge text-bg-secondary">disabilitato</span>
+                            }
+                        </td>
+                        <td>@space.CreatedAt.LocalDateTime.ToString("g")</td>
+                        <td class="text-end">
+                            <div class="d-flex gap-2 justify-content-end">
+                                @if (space.IsActive)
+                                {
+                                    <form asp-controller="Spaces" asp-action="Select" method="post">
+                                        <input type="hidden" name="id" value="@space.Id" />
+                                        <button type="submit" class="btn btn-sm btn-primary">Entra</button>
+                                    </form>
+                                    <form asp-controller="Spaces" asp-action="Disable" method="post" onsubmit="return confirm('Disabilitare questo Space?');">
+                                        <input type="hidden" name="id" value="@space.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Disabilita</button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @section Scripts {
