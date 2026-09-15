@@ -124,7 +124,7 @@
 
             </header>
         }
-        <main role="main" class="@(User.IsTenantAuthenticated() ? "kh-main" : "")">
+        <main role="main" class="kh-main">
             <div>
                 @if (TempData["Error"] is string errorMessage)
                 {
