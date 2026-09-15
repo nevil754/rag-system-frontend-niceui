@@ -352,7 +352,7 @@ header {
 @media (min-width: 768px) {
     .kh-login-card {
         width: 100% !important; 
-        max-width: 820px !important;
+        min-width: 820px !important;
     }
 
     #loginTabs .nav-link {

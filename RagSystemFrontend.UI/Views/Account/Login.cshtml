@@ -57,8 +57,8 @@
                                 <img src="~/img/icona_email.png" alt="Email Icon" />
                             </span>
                             <input asp-for="Tenant.Email" class="kh-input" autocomplete="username" placeholder="Inserisci la tua email" />
+                            <span asp-validation-for="Tenant.Email" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Tenant.Email" class="text-danger"></span>
                     </div>
 
                     <div class="kh-form-group">
@@ -68,8 +68,8 @@
                                 <img src="~/img/icona_pwd.png" alt="Password Icon" />
                             </span>
                             <input asp-for="Tenant.Password" class="kh-input" autocomplete="current-password" placeholder="Inserisci la tua password" />
+                            <span asp-validation-for="Tenant.Password" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Tenant.Password" class="text-danger"></span>
                     </div>
 
 
@@ -80,8 +80,8 @@
                                 <img src="~/img/icona_ufficio.png" alt="Ufficio Icon" />
                             </span>
                             <input asp-for="Tenant.TenantSlug" class="kh-input" placeholder="es. filiale-torino" />
+                            <span asp-validation-for="Tenant.TenantSlug" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="Tenant.TenantSlug" class="text-danger"></span>
 
                     </div>
                     <button type="submit" class="kh-primary-btn">Accedi</button>
